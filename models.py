@@ -20,20 +20,25 @@ class sale_order(models.Model):
                     if isinstance(default_code, int) or isinstance(default_code, float):
                         default_code = '%d' % default_code
                     products = self.env["product.product"].search([('default_code', '=', default_code)])
-                    if len(products) > 0:
+                    product_count = len(products)
+                    if product_count == 1:
                         product_id = products[0].id
+                    elif product_count > 1:
+                        raise exceptions.ValidationError('error in line:%d.%d product has default code:%s!' %
+                                                         (row, product_count, default_code))
                     else:
-                        raise exceptions.UserError('error in line:%d.default code:%s not exist!' % (row, default_code))
+                        raise exceptions.ValidationError('error in line:%d.default code:%s not exist!' %
+                                                         (row, default_code))
                 else:
                     break
 
                 qty = sheet.cell(row, 3).value
                 if not qty or qty <= 0:
-                    raise exceptions.UserError('error in line:%d.Quantity must greater then zero!' % row)
+                    raise exceptions.ValidationError('error in line:%d.Quantity must greater then zero!' % row)
 
                 price = sheet.cell(row, 4).value
                 if not price:
-                    raise exceptions.UserError('error in line:%d.Price must greater then zero!' % row)
+                    raise exceptions.ValidationError('error in line:%d.Price must greater then zero!' % row)
 
                 correct_lines.append((product_id, qty, price))
 

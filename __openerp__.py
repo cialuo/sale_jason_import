@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
-
 {
     'name': 'Jason Import',
     'category': 'Custom',
-    'summary': '',
-    'website': 'http://www.rainsoft.com',
     'version': '1.0',
     'description': """
+    import sale order line from excel file.
         """,
     'author': 'Jason & wangting',
     'depends': ['sale'],

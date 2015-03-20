@@ -13,7 +13,7 @@ class sale_order(models.Model):
         if self.xls_data:
             xls = xlrd.open_workbook(file_contents=base64.decodestring(self.xls_data))
             sheet = xls.sheet_by_index(0)
-            correct_lines =[]
+            correct_lines = []
             for row in range(1, sheet.nrows):
                 default_code = sheet.cell(row, 1).value
                 if default_code:
